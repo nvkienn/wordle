@@ -1,7 +1,6 @@
 import listw
 import random
 
-
 #asssigning answer
 p = random.randint(0,2308)
 ans = listw.ans[p]
