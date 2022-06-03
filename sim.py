@@ -3,7 +3,8 @@ import random
 
 #asssigning answer
 p = random.randint(0,2308)
-ans = listw.ans[p]
+#ans = listw.ans[p]
+ans = 'hello'
 print (ans)
 
 
@@ -18,32 +19,39 @@ def invalid():
 #The simulator:
 for i in range (5):
     outcome = ['' for i in range (5)]
-    repeat = {}
 
     #the guess
     word = input()
 
-    #computating the outcome
+    #checking that guess is valid:
+    '''
     while (word.isalpha == False or len(word) != 5 or invalid()):
-        word = input()
+    '''
+    while (word.isalpha == False or len(word) != 5):
+        word = input('Invalid, try again:')
+
+    #the simulator:
     for i in range (5):
         if (word[i] not in ans):
             outcome[i]='B'
         elif (word[i] == ans[i]):
             outcome[i]='G'
         else:
-            outcome[i]='Y'
+            #if guess has more of the same letter than the ans:
+            if (word.count(word[i])>ans.count(word[i])):
+                letter_count = 0
+                for x in range (5):
+                    if (word[x] == word [i]):
+                        letter_count += 1
+                        if (letter_count<=ans.count(word[i])):
+                            if (outcome[x]!='G'):
+                                outcome[x]='Y'
+                        else:
+                            outcome[x]='B'
+            else:
+                outcome[i]='Y'
 
-    #exceptions with more than 1 of the same letter in a guess
-    for i in word:
-        if (i in repeat):
-            d[str(i)]+=1
-        else:
-            d[str(i)]=1
-    for i in repeat.items():
-        if (i[1]>=2):
-            if (
-
+    print (outcome)
 
     #if succeeded:
     if (word == ans):
