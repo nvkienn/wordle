@@ -37,6 +37,26 @@ for i in range (5):
 
     #going through each letter
     for i in range (5):
+        #letter counter
+        count = {}
+        if (word[i] in count):
+            count[word[i]]+=1
+        else:
+            count[word[i]]=1
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
         #if letter in guess is in the answer
         if (word[i] in ans):
 
