@@ -22,4 +22,4 @@ for alpha in alphalist:
                 count+=1
             if (count>=3):
                 print (words)
-
+print (len(listw.guess))

@@ -16,8 +16,8 @@ def invalid(guess):
     return True
 #generates answer
 def ans_generator():
-    p = random.randint(0,2308)
-    ans = listw.ans[p]
+    p = random.randint(0,12974)
+    ans = listw.guess[p]
     return ans
 
 #generates outcome
