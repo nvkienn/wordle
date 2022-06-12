@@ -1,3 +1,4 @@
+from colors import colors
 import random
 import listw
 
@@ -16,8 +17,8 @@ def invalid(guess):
     return True
 #generates answer
 def ans_generator():
-    p = random.randint(0,12974)
-    ans = listw.guess[p]
+    p = random.randint(0,2309)
+    ans = listw.ans[p]
     return ans
 
 #generates outcome
@@ -44,4 +45,14 @@ def colorize(guess, answer):
                 d_answer[letter] -=1
                 d_guess[letter] -=1
 
-    return result
+    outcome = ''
+
+    for c,i in enumerate(result):
+        if (i == 'G'):
+            outcome += (colors.GREEN + guess[c] + ' ' + colors.ENDC)
+        elif (i == 'Y'):
+            outcome += (colors.CYAN + guess[c] + ' ' + colors.ENDC)
+        else:
+            outcome += (colors.WHITE + guess[c] + ' ' + colors.ENDC)
+
+    return outcome
