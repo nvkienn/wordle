@@ -44,15 +44,16 @@ def colorize(guess, answer):
                 result[index] = 'Y'
                 d_answer[letter] -=1
                 d_guess[letter] -=1
+    return result
 
+def colorize_outcome (guess,result):
     outcome = ''
-
     for c,i in enumerate(result):
         if (i == 'G'):
-            outcome += (colors.GREEN + guess[c] + ' ' + colors.ENDC)
+            outcome += (colors.GREEN + guess[c].upper() + ' ' + colors.ENDC)
         elif (i == 'Y'):
-            outcome += (colors.CYAN + guess[c] + ' ' + colors.ENDC)
+            outcome += (colors.BLUE + guess[c].upper() + ' ' + colors.ENDC)
         else:
-            outcome += (colors.WHITE + guess[c] + ' ' + colors.ENDC)
-
+            outcome += (colors.WHITE + guess[c].upper() + ' ' + colors.ENDC)
     return outcome
+

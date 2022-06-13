@@ -3,12 +3,16 @@ from base_game_code import colorize
 import listw
 import math
 
+answers_count = 2309
+ans_default = listw.ans
+
 def renewed_ans (guess,outcome,ans_list):
-    for i in ans_list:
-        check_outcome = colorize(guess,i)
-        if (outcome != check_outcome):
-            ans_list.remove(i)
-    return ans_list
+    renewed_list = []
+    for ans in ans_list:
+        check_outcome = colorize(guess,ans)
+        if (outcome == check_outcome):
+            renewed_list.append(ans)
+    return renewed_list
 
 def probability (guess,outcome,ans_list):
     counter = 0
@@ -16,7 +20,7 @@ def probability (guess,outcome,ans_list):
          check_outcome = colorize(guess,i)
          if (outcome == check_outcome):
              counter +=1
-    probability = counter/12974
+    probability = counter/len(ans_list)
     return probability
 
 def bits (guess,outcome,ans_list):
@@ -28,12 +32,12 @@ def entropy (guess,ans_list):
     #sum(probability * log2(1/p))
     temp = possible_outcomes.copy()
     entropy = 0
-    for i in ans_list:
-        a = tuple(colorize(guess,i))
-        temp[a] += 1
+    for ans in ans_list:
+        outcome = tuple(colorize(guess,ans))
+        temp[outcome] += 1
     for i in temp.values():
         if (i != 0):
-            entropy += i/2309 * math.log(2309/i,2)
+            entropy += i/len(ans_list) * math.log(len(ans_list)/i,2)
     return entropy
 
 def all_entropy (ans_list):
@@ -41,6 +45,8 @@ def all_entropy (ans_list):
     #for c,i in enumerate (listw.ans):
     #    if (c>100):
     #        break
+
+    #look through all possible guesses
     for i in listw.guess:
         a = entropy(i,ans_list)
         d_entropy[i] = a
