@@ -51,8 +51,47 @@ def all_entropy (ans_list):
         a = entropy(i,ans_list)
         d_entropy[i] = a
     sort_entropy = sorted (d_entropy.items(), key = lambda x:x [1], reverse = True) 
-    for i in range (10):
-        print (sort_entropy[i])
+    return sort_entropy
+
+def best_entropy (ans_list):
+    temp = ('ans',0)
+    for i in listw.guess:
+        a = entropy(i,ans_list)
+        if (a > temp[1]):
+            temp = (i,a)
+    return temp[0]
+
+#for anti wordle
+def worst_entropy (ans_list):
+    d_entropy = {}
+    for i in listw.guess:
+        a = entropy(i,ans_list)
+        d_entropy[i] = a
+    sort_entropy = sorted (d_entropy.items(), key = lambda x:x [1], reverse = False) 
+    return sort_entropy
+    
+def two_entropy (guess,ans_list):
+    #soare - different outcomes - reduce the word list - find best entropy word - multiply by probability of outcome
+    #dictionary {soare:{
+    d_entropy = {}
+    for i in listw.guess:
+        a = entropy(i,ans_list)
+        d_entropy[i] = a
+    sort_entropy = sorted (d_entropy.items(), key = lambda x:x [1], reverse = True) 
+    return sort_entropy
+
+
+
+def possible_answers (ans_list):
+    temp = ('ans',0)
+    for i in ans_list:
+        a = entropy(i,ans_list)
+        if (a > temp[1]):
+            temp = (i,a)
+        return temp
+            
+    
+
 
 def first_guesses():
     print ("('soare', 5.885202744292758)\n('roate', 5.884856313732008)\n('raise', 5.878302956493171)\n('reast', 5.867738020843565)\n('raile', 5.865153829041265)\n('slate', 5.855819244109515)\n('salet', 5.83602278209248)\n('crate', 5.835215982633282)\n('irate', 5.832798880940905)\n('trace', 5.830429108079757)")

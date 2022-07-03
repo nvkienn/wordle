@@ -11,10 +11,13 @@ ans = ans_generator()
 #selects list of answers
 ans_list = listw.ans
 
+#user guesses
+user_guess = []
+
 #initiating each turn 
 for i in range (6):
 
-    print (colors.WHITE + 'Guess #'+str(i+1))
+    print ('Guess #'+str(i+1))
     #best first guesses
     if (i == 0):
         print ('possible answers: 2309')
@@ -28,15 +31,16 @@ for i in range (6):
         ans_left = len(ans_list)
         print ('possible answers:',ans_left)
         print ('bits of uncertainty:',math.log(ans_left,2))
-        all_entropy(ans_list)
-        if (len(ans_list)<=10):
-            possible_answers = {}
-            print ('possible answers:')
-            for ans in ans_list:
-                possible_answers[ans]=entropy(ans,ans_list)
-            sorted_possible_answers = sorted (possible_answers.items(),key = lambda x:x[1],reverse = True)
-            for i in sorted_possible_answers:
-                print (i)
+        a = all_entropy(ans_list)
+        for i in range (5):
+            print (a[i])
+        possible_answers = {}
+        print ('possible answers:')
+        for ans in ans_list:
+            possible_answers[ans]=entropy(ans,ans_list)
+        sorted_possible_answers = sorted (possible_answers.items(),key = lambda x:x[1],reverse = True)
+        for i in range (5):
+            print (sorted_possible_answers[i])
                 
     #input guess
     guess = input ("Enter guess:")
@@ -45,7 +49,9 @@ for i in range (6):
         guess = input ("Invalid, enter guess:")
     #generates outcome
     outcome = colorize (guess,ans)
-    print (colorize_outcome(guess,outcome))
+    user_guess.append(colorize_outcome(guess,outcome))
+    for z in user_guess:
+        print (z)
 
     print ('probability of outcome is',probability(guess,outcome,ans_list))
     print ('bits of info is',bits(guess,outcome,ans_list))
