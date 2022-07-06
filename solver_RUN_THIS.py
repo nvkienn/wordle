@@ -1,5 +1,5 @@
 from base_game_code import colorize,invalid,ans_generator,colorize_outcome
-from solver_code import probability,bits,entropy,all_entropy,first_guesses,renewed_ans
+from solver_code import probability,bits,entropy,all_entropy,first_guesses,renewed_ans,possible_answers
 from outcomes_all import possible_outcomes
 from colors import colors
 import listw
@@ -34,13 +34,13 @@ for i in range (6):
         a = all_entropy(ans_list)
         for i in range (5):
             print (a[i])
-        possible_answers = {}
         print ('possible answers:')
-        for ans in ans_list:
-            possible_answers[ans]=entropy(ans,ans_list)
-        sorted_possible_answers = sorted (possible_answers.items(),key = lambda x:x[1],reverse = True)
+        b = possible_answers(ans_list)
         for i in range (5):
-            print (sorted_possible_answers[i])
+            try:
+                print (b[i])
+            except:
+                pass
                 
     #input guess
     guess = input ("Enter guess:")

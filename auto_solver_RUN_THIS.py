@@ -1,5 +1,5 @@
 from base_game_code import colorize,invalid,ans_generator,colorize_outcome
-from solver_code import probability,bits,entropy,all_entropy,first_guesses,renewed_ans, best_entropy
+from solver_code import probability,bits,entropy,all_entropy,first_guesses,renewed_ans, best_entropy,possible_answers
 from outcomes_all import possible_outcomes
 from colors import colors
 import listw
@@ -13,11 +13,14 @@ import math
 #to be averaged to find the average number of guesses took to solve all answers
 number_of_guess = 0
 
+word_count = 0
 
 #running through all answers
 for answer in listw.ans:
 
-    print ('Word #'+str(answer+1))
+    word_count += 1
+
+    print ('Word #'+str(word_count))
 
     #user guesses
     user_guess = []
@@ -40,6 +43,9 @@ for answer in listw.ans:
             #print ('bits of uncertainty: 0')
             #print ('answer is:',ans_list[0])
             guess = ans_list[0]
+        elif (len(ans_list)<=50)
+            b = possible_answers(ans_list)
+            guess = b[0][0]
         else:
             ans_left = len(ans_list)
             #print ('possible answers:',ans_left)
@@ -49,19 +55,15 @@ for answer in listw.ans:
             #for i in range (10):
             #   print (a[i])
     
-            possible_answers = {}
+            b = possible_answers(ans_list)
             #print ('possible answers:')
-            for ans in ans_list:
-                possible_answers[ans]=entropy(ans,ans_list)
-            sorted_possible_answers = sorted (possible_answers.items(),key = lambda x:x[1],reverse = True)
             #for i in range(10):
             #    try:
             #        print (sorted_possible_answers[i])
             #    except:
             #        pass
-            if (sorted_possible_answers[0][1]==a[0][1]):
-                guess = sorted_possible_answers[0][0]
-                    
+            if (b[0][1]==a[0][1]):
+                guess = b[0][0]
     
         #generates outcome
         outcome = colorize (guess,answer)
