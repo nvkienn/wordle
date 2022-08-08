@@ -38,15 +38,14 @@ def entropy (guess,ans_list):
     for i in temp.values():
         if (i != 0):
             entropy += i/len(ans_list) * math.log(len(ans_list)/i,2)
+    '''
+    sort_entropy = sorted (temp.items(), key = lambda x:x [1], reverse = True) 
+    return sort_entropy
+    '''
     return entropy
 
 def all_entropy (ans_list):
     d_entropy = {}
-    #for c,i in enumerate (listw.ans):
-    #    if (c>100):
-    #        break
-
-    #look through all possible guesses
     for i in listw.guess:
         a = entropy(i,ans_list)
         d_entropy[i] = a
@@ -61,13 +60,29 @@ def possible_answers(ans_list):
     sort_entropy = sorted (d_entropy.items(), key = lambda x:x [1], reverse = True) 
     return sort_entropy
 
-def best_entropy (ans_list):
-    temp = ('ans',0)
-    for i in listw.guess:
-        a = entropy(i,ans_list)
-        if (a > temp[1]):
-            temp = (i,a)
-    return temp[0]
+def best_entropy_word (ans_list):
+    best_guess = ('ans',0)
+    #count = 0
+    for guess in listw.guess:
+    #    count +=1
+    #    if (count%50==0):
+    #        print (count)
+        info = entropy(guess,ans_list)
+        if (info > best_guess[1]):
+            best_guess = (guess,info)
+    return best_guess[0]
+
+def best_entropy_value (ans_list):
+    best_guess = ('ans',0)
+    #count = 0
+    for guess in listw.guess:
+    #    count +=1
+    #    if (count%50==0):
+    #        print (count)
+        info = entropy(guess,ans_list)
+        if (info > best_guess[1]):
+            best_guess = (guess,info)
+    return best_guess[1]
 
 #for anti wordle
 def worst_entropy (ans_list):
@@ -79,15 +94,29 @@ def worst_entropy (ans_list):
     return sort_entropy
     
 def two_entropy (guess,ans_list):
-    #soare - different outcomes - reduce the word list - find best entropy word - multiply by probability of outcome
-    #dictionary {soare:{
+    total_entropy = 0
+    total_entropy += entropy(guess,ans_list)
+    all_outcomes = possible_outcomes.copy()
+    for outcome in all_outcomes:
+        chance = probability(guess,list(outcome),ans_list)
+        renewed_list = renewed_ans(guess,list(outcome),ans_list)
+        total_entropy += best_entropy_value(renewed_list)*chance
+    return total_entropy
+
+def two_entropy_all (ans_list):
     d_entropy = {}
-    for i in listw.guess:
-        a = entropy(i,ans_list)
-        d_entropy[i] = a
-    sort_entropy = sorted (d_entropy.items(), key = lambda x:x [1], reverse = True) 
+    for guess in listw.guess:
+        value = two_entropy(guess,ans_list)
+        d_entropy[guess] = value
+    sort_entropy = sorted (d_entropy.items(),key = lambda x:x[1],reverse = True)
     return sort_entropy
 
+def practical_entropy (guess):
+    total_entropy = 0
+    all_outcomes = possible_outcomes.copy()
+    for outcome in all_outcomes:
+        print (hi)
+        
 
 def first_guesses():
     print ("('soare', 5.885202744292758)\n('roate', 5.884856313732008)\n('raise', 5.878302956493171)\n('reast', 5.867738020843565)\n('raile', 5.865153829041265)")

@@ -1,1 +1,1 @@
-run the_game.py to play wordle
+run solver_RUN_THIS.py to play wordle

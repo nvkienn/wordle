@@ -43,15 +43,21 @@ for answer in listw.ans:
             #print ('bits of uncertainty: 0')
             #print ('answer is:',ans_list[0])
             guess = ans_list[0]
-        elif (len(ans_list)<=50)
+            '''
+        elif (len(ans_list)<=50):
             b = possible_answers(ans_list)
             guess = b[0][0]
+            '''
         else:
             ans_left = len(ans_list)
             #print ('possible answers:',ans_left)
             #print ('bits of uncertainty:',math.log(ans_left,2))
+            '''
             a = all_entropy(ans_list)
             guess = a[0][0]
+            '''
+            a = best_entropy(ans_list)
+            guess = a[0]
             #for i in range (10):
             #   print (a[i])
     
@@ -62,7 +68,7 @@ for answer in listw.ans:
             #        print (sorted_possible_answers[i])
             #    except:
             #        pass
-            if (b[0][1]==a[0][1]):
+            if (b[0][1]==a[1]):
                 guess = b[0][0]
     
         #generates outcome

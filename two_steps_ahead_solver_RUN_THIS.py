@@ -50,6 +50,12 @@ for i in range (6):
     #generates outcome
     outcome = colorize (guess,ans)
 
+    '''
+    '''
+    input_outcome = input ()
+    outcome = list(input_outcome)
+    '''
+    '''
 
     user_guess.append(colorize_outcome(guess,outcome))
     for z in user_guess:
@@ -59,14 +65,24 @@ for i in range (6):
     print ('bits of info is',bits(guess,outcome,ans_list))
     ans_list = renewed_ans(guess,outcome,ans_list)
 
-    if (guess==ans):
+    if (input_outcome == 'GGGGG'):
         print ('\nYOU GUESSED IT.')
         print ('guesses took:',i+1)
         break
     print ('\n-----------------------------')
 
+    '''
+    if (guess==ans):
+        print ('\nYOU GUESSED IT.')
+        print ('guesses took:',i+1)
+        break
+    print ('\n-----------------------------')
+    '''
+
+'''
 if (guess!=ans):
     print ('You failed.')
+'''
 
 print ('\nEND OF GAME')
 

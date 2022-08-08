@@ -5,8 +5,6 @@ from colors import colors
 import listw
 import math
 
-#generates answer
-ans = ans_generator()
 
 #selects list of answers
 ans_list = listw.ans
@@ -15,11 +13,11 @@ ans_list = listw.ans
 user_guess = []
 
 #initiating each turn 
-for i in range (6):
+for turn in range (6):
 
-    print ('Guess #'+str(i+1))
+    print ('Guess #'+str(turn+1))
     #best first guesses
-    if (i == 0):
+    if (turn == 0):
         print ('possible answers: 2309')
         print ('bits of uncertainty: 11.173052457774116')
         first_guesses()
@@ -48,8 +46,9 @@ for i in range (6):
     while (invalid(guess)):
         guess = input ("Invalid, enter guess:")
     #generates outcome
-    outcome = colorize (guess,ans)
 
+    input_outcome = input ()
+    outcome = list(input_outcome)
 
     user_guess.append(colorize_outcome(guess,outcome))
     for z in user_guess:
@@ -59,14 +58,11 @@ for i in range (6):
     print ('bits of info is',bits(guess,outcome,ans_list))
     ans_list = renewed_ans(guess,outcome,ans_list)
 
-    if (guess==ans):
+    if (input_outcome == 'GGGGG'):
         print ('\nYOU GUESSED IT.')
-        print ('guesses took:',i+1)
+        print ('guesses took:',turn+1)
         break
     print ('\n-----------------------------')
-
-if (guess!=ans):
-    print ('You failed.')
 
 print ('\nEND OF GAME')
 
