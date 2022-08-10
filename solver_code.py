@@ -104,22 +104,32 @@ def two_entropy (guess,ans_list):
     return total_entropy
 
 def two_entropy_all (ans_list):
-    d_entropy = {}
-    count = 0
+    d_entropy = []
     for guess in listw.guess:
-        count += 1
-        print (count)
         value = two_entropy(guess,ans_list)
-        d_entropy[guess] = value
-    sort_entropy = sorted (d_entropy.items(),key = lambda x:x[1],reverse = True)
+        two_entropy_all.append([guess,value])
     return sort_entropy
 
-def practical_entropy (guess):
-    total_entropy = 0
+def practical_entropy (guess,guess_list):
+    save = [guess,'2guess',0]
     all_outcomes = possible_outcomes.copy()
-    for outcome in all_outcomes:
-        print (hi)
-        
+    count = 0
+    for word in guess_list:
+        count +=1
+        print (count)
+        total_entropy = 0
+        for outcome in all_outcomes:
+            chance = probability(guess,list(outcome),listw.ans)
+            renewed_list = renewed_ans(guess,list(outcome),listw.ans) 
+            total_entropy += entropy(word,renewed_list)*chance
+        if (total_entropy>save[2]):
+            save[1] = word
+            save[2] = total_entropy
+    save[2] += entropy(guess,listw.ans)
+    return save
+
+
+
 
 def first_guesses():
     print ("('soare', 5.885202744292758)\n('roate', 5.884856313732008)\n('raise', 5.878302956493171)\n('reast', 5.867738020843565)\n('raile', 5.865153829041265)")
