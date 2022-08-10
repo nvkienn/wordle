@@ -5,7 +5,7 @@ import listw
 import json
 
 with open ('data.txt','a') as f1:
-    f1.write(str(practical_entropy('soare',listw.guess[0:500])))
+    f1.write(practical_entropy('soare',listw.guess[4500:5000]))
 
 #two_entropy_v1('soare',listw.ans)
 #print(best_entropy(listw.ans))
