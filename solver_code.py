@@ -105,7 +105,10 @@ def two_entropy (guess,ans_list):
 
 def two_entropy_all (ans_list):
     d_entropy = {}
+    count = 0
     for guess in listw.guess:
+        count += 1
+        print (count)
         value = two_entropy(guess,ans_list)
         d_entropy[guess] = value
     sort_entropy = sorted (d_entropy.items(),key = lambda x:x[1],reverse = True)
