@@ -2,7 +2,6 @@ from outcomes_all import possible_outcomes
 from base_game_code import colorize
 import listw
 import math
-
 answers_count = 2309
 ans_default = listw.ans
 
@@ -79,19 +78,27 @@ def best_entropy_value (ans_list):
     #    count +=1
     #    if (count%50==0):
     #        print (count)
-        info = entropy(guess,ans_list)
+        info = entropy(iguess,ans_list)
         if (info > best_guess[1]):
             best_guess = (guess,info)
     return best_guess[1]
 
 #for anti wordle
-def worst_entropy (ans_list):
+def worst_entropy_all (ans_list):
     d_entropy = {}
     for i in listw.guess:
         a = entropy(i,ans_list)
         d_entropy[i] = a
     sort_entropy = sorted (d_entropy.items(), key = lambda x:x [1], reverse = False) 
     return sort_entropy
+
+def worst_entropy_word (ans_list):
+    worst_guess = ('ans',100)
+    for guess in ans_list:
+        info = entropy(guess,ans_list)
+        if (info < worst_guess[1]):
+            worst_guess = (guess,info)
+    return worst_guess[0]
     
 def two_entropy (guess,ans_list):
     total_entropy = 0
