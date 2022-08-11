@@ -4,8 +4,16 @@ from outcomes_all import possible_outcomes
 import listw
 import json
 
-with open ('data.txt','a') as f1:
-    f1.write(str(practical_entropy('soare',listw.guess[0:500])))
+with open ('data.txt','r') as f1:
+    data = f1.readlines()
+result = ['a','a',0]
+for i in data:
+    #if (i[2]>result[2]):
+    #    result = i
+    a = list[i]
+    print (type(a))
+    
+
 
 #two_entropy_v1('soare',listw.ans)
 #print(best_entropy(listw.ans))
