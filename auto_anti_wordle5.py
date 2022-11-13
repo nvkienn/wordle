@@ -15,8 +15,12 @@ number_of_guess = 0
 
 word_count = 0
 
+ans_list = listw.ans
+ans_list = renewed_ans('xylyl',['B','B','B','B','B'],ans_list)
+ans_list = renewed_ans('qajaq',['B','B','B','B','B'],ans_list)
+ans_list = renewed_ans('whizz',['B','G','G','B','B'],ans_list)
 #running through all answers
-for answer in listw.ans[2000:2309]:
+for answer in listw.ans:
 
     word_count += 1
 
@@ -26,7 +30,7 @@ for answer in listw.ans[2000:2309]:
     user_guess = []
 
     #selects list of possible_guesses
-    ans_list = listw.guess
+    #ans_list = listw.guess
 
     #initiating each turn 
     for turn in range (100):
@@ -37,17 +41,21 @@ for answer in listw.ans[2000:2309]:
             #print ('possible answers: 2309')
             #print ('bits of uncertainty: 11.173052457774116')
             #first_guesses()
-            guess = 'qajaq'
+            print (worst_entropy_word (ans_list))
+            guess = input()
         else:
             #ans_left = len(ans_list)
             #print ('possible answers:',ans_left)
             #print ('bits of uncertainty:',math.log(ans_left,2))
-            guess = worst_entropy_word (ans_list)
+            print (worst_entropy_word (ans_list))
+            guess = input()
 
     
     
         #generates outcome
         outcome = colorize (guess,answer)
+        hi = input()
+        outcome = list(hi)
         user_guess.append(colorize_outcome(guess,outcome))
         for z in user_guess:
             print (z)
@@ -59,10 +67,10 @@ for answer in listw.ans[2000:2309]:
     
         print ('\n-----------------------------')
     
-        if (guess==answer):
+        #if (guess==answer):
            # print ('\nYOU GUESSED IT.')
            # print ('guesses took:',turn+1)
-            break
+            #break
 
     #if (guess!=answer):
     #    print ('You failed.')

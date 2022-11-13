@@ -16,7 +16,7 @@ number_of_guess = 0
 word_count = 0
 
 #running through all answers
-for answer in listw.ans[0:500]:
+for answer in listw.ans:
 
     word_count += 1
 
@@ -42,11 +42,14 @@ for answer in listw.ans[0:500]:
             #ans_left = len(ans_list)
             #print ('possible answers:',ans_left)
             #print ('bits of uncertainty:',math.log(ans_left,2))
-            guess = worst_entropy_word (ans_list)
+            print(worst_entropy_word (ans_list))
+            guess = 'input'
+            
     
     
         #generates outcome
         outcome = colorize (guess,answer)
+        outcome = list(input())
         user_guess.append(colorize_outcome(guess,outcome))
         for z in user_guess:
             print (z)
@@ -58,10 +61,10 @@ for answer in listw.ans[0:500]:
     
         print ('\n-----------------------------')
     
-        if (guess==answer):
+        #if (guess==answer):
            # print ('\nYOU GUESSED IT.')
            # print ('guesses took:',turn+1)
-            break
+        #    break
 
     #if (guess!=answer):
     #    print ('You failed.')
