@@ -27,6 +27,10 @@ class Database {
     private final HashMap<String, HashMap<String, String>> data;
     final List<String> guesses, answers;
 
+    int size() {
+        return this.data.size();
+    }
+
     Database(HashMap<String, HashMap<String, String>> data) {
         this.data = data;
         HashMap<String, String> ansMap = data.values().iterator().next();
@@ -160,13 +164,14 @@ public class Wordle extends Debug {
             String ans = iter.next();
             double tries = solve(ans);
             this.totalGuesses += tries;
+            this.done++;
             display(numAns);
         }
     }
 
     Wordle() {
         this.db = new Database(Loader.loadDatabase());
-        this.masterAnswerSet = new HashSet<String>();
+        this.masterAnswerSet = new HashSet<String>(this.db.answers);
     }
 
     void main() {
