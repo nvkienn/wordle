@@ -1,35 +1,47 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.lang.Math;
-import java.nio.file.Paths;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
-class Guess {
-    String word;
-    double info;
+class GuessFreq extends HashMap<String, Integer> {}
 
-    Guess(String word, double info) {
-        this.word = word;
-        this.info = info;
+class Stats {
+    GuessFreq[] guesses;
+
+    Stats() {
+        this.guesses = new GuessFreq[] {
+            null,
+            new GuessFreq(),
+            new GuessFreq(),
+            new GuessFreq(),
+            new GuessFreq(),
+            new GuessFreq(),
+            new GuessFreq(),
+        };
     }
 
-    Guess copy() {
-        return new Guess(this.word, this.info);
+    void recordGuess(String guess, int turn) {
+        if (turn < 0 || turn >= this.guesses.length)
+            return;
+        GuessFreq data = this.guesses[turn];
+        data.put(guess, data.getOrDefault(guess, 0) + 1);
+    }
+
+    void print() {
+        System.out.printf("[1]: %s\n", this.guesses[1].size());
+        System.out.printf("[2]: %s\n", this.guesses[2].size());
+        System.out.printf("[3]: %s\n", this.guesses[3].size());
+        System.out.printf("[4]: %s\n", this.guesses[4].size());
+        System.out.printf("[5]: %s\n", this.guesses[5].size());
+        System.out.printf("[6]: %s\n", this.guesses[6].size());
     }
 }
 
 class Database {
     private final HashMap<String, HashMap<String, String>> data;
     final List<String> guesses, answers;
-
-    int size() {
-        return this.data.size();
-    }
 
     Database(HashMap<String, HashMap<String, String>> data) {
         this.data = data;
@@ -66,44 +78,36 @@ class Database {
      * If guess that is in answer list is within tolerance, pick it instead.
      */
     String nextGuess(HashSet<String> ansList) {
-        Guess best = new Guess("not-ans", 0);
-        Guess ans = new Guess("ans", 0);
-        double tolerance = 0.00001;
+        ArrayList<String> candidates = new ArrayList<String>();
+        double bestInfo = 0.0;
         for (String guess : this.guesses) {
             double info = this.entropy(guess, ansList);
-            if (info > best.info) {
-                best = new Guess(guess, info);
-                if (isAns(guess)) {
-                    ans = best;
-                }
+            // cmp < 0 means info < bestInfo
+            int cmp = Double.compare(info, bestInfo);
+            if (cmp > 0) {
+                candidates.clear();
+                candidates.add(guess);
+                bestInfo = info;
+            } else if (cmp == 0) {
+                candidates.add(guess);
             }
         }
-        return (best.info - ans.info < tolerance ? ans : best).word;
+        for (String candidate : candidates)
+            if (isAns(candidate)) {
+                return candidate;
+            }
+
+        return candidates.get(0);
     }
 }
 
 public class Wordle extends Debug {
     final Database db;
     final HashSet<String> masterAnswerSet;
+    final Stats stats = new Stats();
     double totalGuesses = 0.0;
     double totalTimeInMilliseconds = 0.0;
     int done = 0;
-
-    HashMap<String, String> readFile(File file) {
-        HashMap<String, String> data = new HashMap<String, String>();
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            reader.lines().forEach(line -> {
-                String guess = line.substring(0, 5);
-                String outcome = line.substring(5);
-                data.put(guess, outcome);
-            });
-            reader.close();
-        } catch (Exception e) {
-            printf("File not found: %s\n", file);
-        }
-        return data;
-    }
 
     /** removes elements from set that don't have same outcome */
     void filterAnsList(String guess, HashSet<String> ansList, String outcome) {
@@ -123,26 +127,30 @@ public class Wordle extends Debug {
     int solve(String ans) {
         String guess;
         HashSet<String> ansList = freshAnsList();
-        int turn = 0;
+        int turn = 1;
         long startTime = System.nanoTime();
-        for (turn = 0; turn < 6; turn++) {
-            if (turn == 0) {
+        for (turn = 1; turn <= 6; turn++) {
+            if (turn == 1) {
                 guess = "soare";
             } else if (ansList.size() == 1) {
                 guess = ansList.stream().findFirst().get();
             } else {
                 guess = db.nextGuess(ansList);
             }
+            if (turn > 1) {
+                stats.recordGuess(guess, turn);
+            }
             String outcome = db.getOutcome(ans, guess);
             filterAnsList(guess, ansList, outcome);
             if (guess.equals(ans))
                 break;
+            if (turn == 6)
+                throw new Error("Unable to solve [" + ans + "]");
         }
         long endTime = System.nanoTime();
         printf("[solved] `%s` in %d tries.\n", ans, turn);
         long mills = (endTime - startTime) / 1000000;
         this.totalTimeInMilliseconds += mills;
-        println("That took " + mills + " milliseconds");
         return turn;
     }
 
@@ -154,15 +162,15 @@ public class Wordle extends Debug {
         int seconds = (int)remainingInSeconds % 60;
         int minutes = (int)remainingInSeconds / 60;
         printf("time remaining: %d min %d sec\n", minutes, seconds);
+        this.stats.print();
     }
 
     void solve() {
         List<String> allPossibleAns = this.db.answers;
         int numAns = allPossibleAns.size();
-        Iterator<String> iter = allPossibleAns.iterator();
-        while (iter.hasNext()) {
-            String ans = iter.next();
-            double tries = solve(ans);
+        Iterator<String> ans = allPossibleAns.iterator();
+        while (ans.hasNext()) {
+            double tries = solve(ans.next());
             this.totalGuesses += tries;
             this.done++;
             display(numAns);
