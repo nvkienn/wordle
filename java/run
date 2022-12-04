@@ -5,4 +5,4 @@ c() {
 }
 trap c EXIT
 javac *.java
-java Wordle
+java Wordle $@
