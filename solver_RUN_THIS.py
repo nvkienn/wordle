@@ -4,6 +4,11 @@ from outcomes_all import possible_outcomes
 from colors import colors
 import listw
 import math
+import json
+
+with open ('outcomes_combinations.json','r') as f1:
+    all_outcomes = json.loads(f1.read())
+
 
 #generates answer
 ans = ans_generator()
@@ -48,7 +53,7 @@ for i in range (6):
     while (invalid(guess)):
         guess = input ("Invalid, enter guess:")
     #generates outcome
-    outcome = colorize (guess,ans)
+    outcome = all_outcomes[ans][guess]
 
 
     user_guess.append(colorize_outcome(guess,outcome))

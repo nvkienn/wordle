@@ -4,6 +4,13 @@ from outcomes_all import possible_outcomes
 from colors import colors
 import listw
 import math
+import time
+import json
+
+start_time = time.time()
+
+with open ('outcomes_combinations.json','r') as f1:
+    all_outcomes = json.loads(f1.read())
 
 #generates answer
 #ans = ans_generator()
@@ -49,7 +56,7 @@ for answer in listw.ans:
             guess = b[0][0]
             '''
         else:
-            ans_left = len(ans_list)
+            #ans_left = len(ans_list)
             #print ('possible answers:',ans_left)
             #print ('bits of uncertainty:',math.log(ans_left,2))
             '''
@@ -72,7 +79,7 @@ for answer in listw.ans:
                 guess = b[0][0]
     
         #generates outcome
-        outcome = colorize (guess,answer)
+        outcome = all_outcomes[answer][guess]
         user_guess.append(colorize_outcome(guess,outcome))
         for z in user_guess:
             print (z)
@@ -95,3 +102,4 @@ for answer in listw.ans:
     number_of_guess += (turn+1)
     
 print ('Average number of guesses:',number_of_guess/2309)
+print (time.time()-start_time)

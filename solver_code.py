@@ -2,22 +2,24 @@ from outcomes_all import possible_outcomes
 from base_game_code import colorize
 import listw
 import math
+import json
 answers_count = 2309
 ans_default = listw.ans
+
+with open ('outcomes_combinations.json','r') as f1:
+    all_outcomes = json.loads(f1.read())
 
 def renewed_ans (guess,outcome,ans_list):
     renewed_list = []
     for ans in ans_list:
-        check_outcome = colorize(guess,ans)
-        if (outcome == check_outcome):
+        if (outcome == all_outcomes[ans][guess]):
             renewed_list.append(ans)
     return renewed_list
 
 def probability (guess,outcome,ans_list):
     counter = 0
-    for i in ans_list:
-         check_outcome = colorize(guess,i)
-         if (outcome == check_outcome):
+    for ans in ans_list:
+         if (outcome == all_outcomes[ans][guess]):
              counter +=1
     probability = counter/len(ans_list)
     return probability
@@ -32,15 +34,11 @@ def entropy (guess,ans_list):
     temp = possible_outcomes.copy()
     entropy = 0
     for ans in ans_list:
-        outcome = tuple(colorize(guess,ans))
+        outcome = tuple(all_outcomes[ans][guess])
         temp[outcome] += 1
     for i in temp.values():
         if (i != 0):
             entropy += i/len(ans_list) * math.log(len(ans_list)/i,2)
-    '''
-    sort_entropy = sorted (temp.items(), key = lambda x:x [1], reverse = True) 
-    return sort_entropy
-    '''
     return entropy
 
 def all_entropy (ans_list):
@@ -59,7 +57,7 @@ def possible_answers(ans_list):
     sort_entropy = sorted (d_entropy.items(), key = lambda x:x [1], reverse = True) 
     return sort_entropy
 
-def best_entropy_word (ans_list):
+def best_entropy (ans_list):
     best_guess = ('ans',0)
     #count = 0
     for guess in listw.guess:
@@ -69,7 +67,7 @@ def best_entropy_word (ans_list):
         info = entropy(guess,ans_list)
         if (info > best_guess[1]):
             best_guess = (guess,info)
-    return best_guess[0]
+    return best_guess
 
 def best_entropy_value (ans_list):
     best_guess = ('ans',0)
