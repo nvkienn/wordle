@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+c() {
+  rm -f *.class
+}
+trap c EXIT
+javac *.java
+java Wordle

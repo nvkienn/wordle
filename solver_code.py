@@ -1,20 +1,8 @@
 from outcomes_all import possible_outcomes
-from base_game_code import colorize
 import listw
 import math
-import json
 answers_count = 2309
 ans_default = listw.ans
-
-with open ('outcomes_combinations.json','r') as f1:
-    all_outcomes = json.loads(f1.read())
-
-def renewed_ans (guess,outcome,ans_list):
-    renewed_list = []
-    for ans in ans_list:
-        if (outcome == all_outcomes[ans][guess]):
-            renewed_list.append(ans)
-    return renewed_list
 
 def probability (guess,outcome,ans_list):
     counter = 0
@@ -69,18 +57,6 @@ def best_entropy (ans_list):
             best_guess = (guess,info)
     return best_guess
 
-def best_entropy_value (ans_list):
-    best_guess = ('ans',0)
-    #count = 0
-    for guess in listw.guess:
-    #    count +=1
-    #    if (count%50==0):
-    #        print (count)
-        info = entropy(iguess,ans_list)
-        if (info > best_guess[1]):
-            best_guess = (guess,info)
-    return best_guess[1]
-
 #for anti wordle
 def worst_entropy_all (ans_list):
     d_entropy = {}
@@ -98,22 +74,12 @@ def worst_entropy_word (ans_list):
             worst_guess = (guess,info)
     return worst_guess[0]
     
-def two_entropy (guess,ans_list):
-    total_entropy = 0
-    total_entropy += entropy(guess,ans_list)
-    all_outcomes = possible_outcomes.copy()
-    for outcome in all_outcomes:
-        chance = probability(guess,list(outcome),ans_list)
-        renewed_list = renewed_ans(guess,list(outcome),ans_list)
-        total_entropy += best_entropy_value(renewed_list)*chance
-    return total_entropy
-
-def two_entropy_all (ans_list):
-    d_entropy = []
-    for guess in listw.guess:
-        value = two_entropy(guess,ans_list)
-        two_entropy_all.append([guess,value])
-    return sort_entropy
+# def two_entropy_all (ans_list):
+#     d_entropy = []
+#     for guess in listw.guess:
+#         value = two_entropy(guess,ans_list)
+#         two_entropy_all.append([guess,value])
+#     return sort_entropy
 
 def practical_entropy (guess,guess_list):
     save = [guess,'2guess',0]

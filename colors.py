@@ -3,6 +3,8 @@ class colors:
     CYAN = '\033[96m'
     GREY = '\u001b[30m'
     WHITE = '\u001b[37m'
-    ENDC = '\u001b[37m'
+    ENDC = '\u001b[m'
     BLUE = '\033[94m'
-    
+    GREEN_BG = '\033[0;30m\033[1;42m'
+    RED_BG = '\033[0;30m\033[1;41m'
+    YELLOW_BG = '\033[0;30m\033[1;43m'

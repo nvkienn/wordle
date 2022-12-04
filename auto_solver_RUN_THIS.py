@@ -1,105 +1,89 @@
-from base_game_code import colorize,invalid,ans_generator,colorize_outcome
-from solver_code import probability,bits,entropy,all_entropy,first_guesses,renewed_ans, best_entropy,possible_answers
-from outcomes_all import possible_outcomes
-from colors import colors
+from base_game_code import colorize_outcome
+import threading
 import listw
-import math
 import time
-import json
+from database import Database
+
+db = Database(5)
 
 start_time = time.time()
+turn = 0
 
-with open ('outcomes_combinations.json','r') as f1:
-    all_outcomes = json.loads(f1.read())
-
-#generates answer
-#ans = ans_generator()
+# generates answer
+# ans = ans_generator()
 
 
-
-#to be averaged to find the average number of guesses took to solve all answers
+# to be averaged to find the average number of guesses took to solve all answers
 number_of_guess = 0
 
 word_count = 0
 
-#running through all answers
-for answer in listw.ans:
 
-    word_count += 1
+def compute(start, end, db):
+    print("GOT HERE")
+    number_of_guess = 0
+    turn = 0
+    word_count = start
+    # running through all answers
+    for i in range(start, start + 2):
+        answer = listw.ans[i]
+        word_count += 1
+        print("Word #" + str(word_count))
+        user_guess = []
+        ans_list = listw.ans
+        # initiating each turn
+        for turn in range(6):
+            print("Guess #" + str(turn + 1))
+            if turn == 0:
+                guess = "soare"
+            elif len(ans_list) == 1:
+                guess = ans_list[0]
+            else:
+                a = db.best_entropy(ans_list)
+                guess = a[0]
+                b = db.possible_answers(ans_list)
+                if b[0][1] == a[1]:
+                    guess = b[0][0]
 
-    print ('Word #'+str(word_count))
+            # generates outcome
+            outcome = db.get_outcome(answer, guess)
+            user_guess.append(colorize_outcome(guess, outcome))
+            for z in user_guess:
+                print(z)
 
-    #user guesses
-    user_guess = []
+            ans_list = db.reduce_ans_list(guess, outcome, ans_list)
+            print("\n-----------------------------")
+            if guess == answer:
+                break
+        number_of_guess += turn + 1
+    results[(start, end)] = {"number_of_guess": number_of_guess}
 
-    #selects list of answers
-    ans_list = listw.ans
 
-    #initiating each turn 
-    for turn in range (6):
-    
-        print ('Guess #'+str(turn+1))
-        #best first guesses
-        if (turn == 0):
-            #print ('possible answers: 2309')
-            #print ('bits of uncertainty: 11.173052457774116')
-            #first_guesses()
-            guess = 'soare'
-        elif (len(ans_list)==1):
-            #print ('possible answers: 1')
-            #print ('bits of uncertainty: 0')
-            #print ('answer is:',ans_list[0])
-            guess = ans_list[0]
-            '''
-        elif (len(ans_list)<=50):
-            b = possible_answers(ans_list)
-            guess = b[0][0]
-            '''
-        else:
-            #ans_left = len(ans_list)
-            #print ('possible answers:',ans_left)
-            #print ('bits of uncertainty:',math.log(ans_left,2))
-            '''
-            a = all_entropy(ans_list)
-            guess = a[0][0]
-            '''
-            a = best_entropy(ans_list)
-            guess = a[0]
-            #for i in range (10):
-            #   print (a[i])
-    
-            b = possible_answers(ans_list)
-            #print ('possible answers:')
-            #for i in range(10):
-            #    try:
-            #        print (sorted_possible_answers[i])
-            #    except:
-            #        pass
-            if (b[0][1]==a[1]):
-                guess = b[0][0]
-    
-        #generates outcome
-        outcome = all_outcomes[answer][guess]
-        user_guess.append(colorize_outcome(guess,outcome))
-        for z in user_guess:
-            print (z)
-    
-        #print ('probability of outcome is',probability(guess,outcome,ans_list))
-        #print ('bits of info is',bits(guess,outcome,ans_list))
-        ans_list = renewed_ans(guess,outcome,ans_list)
-    
-        print ('\n-----------------------------')
-    
-        if (guess==answer):
-           # print ('\nYOU GUESSED IT.')
-           # print ('guesses took:',turn+1)
-            break
+total = len(listw.ans)
+chunk_size = 400
+b = 0
+chunk_counts = []
+while b < total:
+    chunk_counts.append(b)
+    b += chunk_size
+chunk_counts.append(total + 1)
+db.read_all()
 
-    #if (guess!=answer):
-    #    print ('You failed.')
-    #
-    #print ('\nEND OF GAME')
-    number_of_guess += (turn+1)
-    
-print ('Average number of guesses:',number_of_guess/2309)
-print (time.time()-start_time)
+results = {}
+threads = []
+
+for i in range(len(chunk_counts) - 1):
+    print(chunk_counts[i], chunk_counts[i + 1])
+    start = chunk_counts[i]
+    end = chunk_counts[i + 1]
+    t = threading.Thread(target=compute, args=(start, end, db))
+    t.start()
+    threads.append(t)
+
+for thread in threads:
+    thread.join()
+    # compute(i, i + 1, db)
+print(chunk_counts)
+
+print("Average number of guesses:", number_of_guess / 2309)
+print(time.time() - start_time)
