@@ -22,8 +22,8 @@ public class Loader {
     }
 
     static File[] getDataFiles() {
-        String cwd = System.getProperty("user.dir");
-        File dataFolder = Paths.get(cwd).getParent().resolve("data").toFile();
+        File dataFolder =
+            Paths.get("").toAbsolutePath().getParent().resolve("data").toFile();
         return dataFolder.listFiles();
     }
 
