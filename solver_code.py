@@ -51,6 +51,14 @@ def all_entropy (ans_list):
     sort_entropy = sorted (d_entropy.items(), key = lambda x:x [1], reverse = True) 
     return sort_entropy
 
+def worst_all_entropy (ans_list):
+    d_entropy = {}
+    for i in listw.guess:
+        a = entropy(i,ans_list)
+        d_entropy[i] = a
+    sort_entropy = sorted (d_entropy.items(), key = lambda x:x [1], reverse = False) 
+    return sort_entropy
+
 def possible_answers(ans_list):
     d_entropy = {}
     for i in ans_list:
@@ -59,7 +67,7 @@ def possible_answers(ans_list):
     sort_entropy = sorted (d_entropy.items(), key = lambda x:x [1], reverse = True) 
     return sort_entropy
 
-def best_entropy_word (ans_list):
+def best_entropy (ans_list):
     best_guess = ('ans',0)
     #count = 0
     for guess in listw.guess:
@@ -69,19 +77,7 @@ def best_entropy_word (ans_list):
         info = entropy(guess,ans_list)
         if (info > best_guess[1]):
             best_guess = (guess,info)
-    return best_guess[0]
-
-def best_entropy_value (ans_list):
-    best_guess = ('ans',0)
-    #count = 0
-    for guess in listw.guess:
-    #    count +=1
-    #    if (count%50==0):
-    #        print (count)
-        info = entropy(iguess,ans_list)
-        if (info > best_guess[1]):
-            best_guess = (guess,info)
-    return best_guess[1]
+    return best_guess
 
 #for anti wordle
 def worst_entropy_all (ans_list):
