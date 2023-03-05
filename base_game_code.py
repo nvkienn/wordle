@@ -50,10 +50,10 @@ def colorize_outcome (guess,result):
     outcome = ''
     for c,i in enumerate(result):
         if (i == 'G'):
-            outcome += (colors.GREEN + guess[c].upper() + ' ' + colors.ENDC)
+            outcome += (colors.BGGREEN + colors.BLACK + ' ' + guess[c].upper() + ' ' + colors.ENDC)
         elif (i == 'Y'):
-            outcome += (colors.BLUE + guess[c].upper() + ' ' + colors.ENDC)
+            outcome += (colors.YELLOW + colors.REVERSED + ' ' + guess[c].upper() + ' ' + colors.ENDC)
         else:
-            outcome += (colors.WHITE + guess[c].upper() + ' ' + colors.ENDC)
+            outcome += (colors.REVERSED + ' ' + guess[c].upper() + ' ' + colors.ENDC)
     return outcome
 

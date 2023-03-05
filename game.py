@@ -2,6 +2,7 @@ from base_game_code import colorize,invalid,ans_generator,colorize_outcome
 
 #generates answer
 ans = ans_generator()
+guess = ''
 
 #initiating each turn 
 for i in range (6):

@@ -1,5 +1,5 @@
 import json
 from outcomes_all import possible_outcomes
-with open('second_word.json','r') as f:
+with open('anti_second_word.json','r') as f:
     data = json.loads(f.read())
-print (data[str(tuple(['B' for i in range(5)]))])
+print (data[str(('B','G','B','B','B'))])

@@ -1,12 +1,8 @@
-from base_game_code import colorize,invalid,ans_generator,colorize_outcome
-from solver_code import probability,bits,entropy,worst_all_entropy,first_guesses,renewed_ans,possible_answers
-from outcomes_all import possible_outcomes
-from colors import colors
+from base_game_code import invalid,ans_generator,colorize_outcome
+from solver_code import probability,bits,all_entropy,first_guesses,renewed_ans,possible_answers
 import listw
 import math
-
-#generates answer
-ans = ans_generator()
+import json
 
 #selects list of answers
 ans_list = listw.ans
@@ -14,30 +10,41 @@ ans_list = listw.ans
 #user guesses
 user_guess = []
 
+with open ('second_word.json','r') as f:
+    data = json.loads(f.read())
+
 #initiating each turn 
-for turn in range (100):
+for turn in range (6):
 
     print ('Guess #'+str(turn+1))
     #best first guesses
     if (turn == 0):
         print ('possible answers: 2309')
         print ('bits of uncertainty: 11.173052457774116')
-        print('qajaq', 1.8901929060587057)
-        print('jujus', 2.0394702600664427)
-        print('immix', 2.0553250345034906)
-        print('xylyl', 2.1896376350793587)
-        print('yukky', 2.2053433495356694)
+        first_guesses()
     elif (len(ans_list)==1):
         print ('possible answers: 1')
         print ('bits of uncertainty: 0')
         print ('answer is:',ans_list[0])
+    elif (turn == 1):
+        ans_left = len(ans_list)
+        print ('possible answers:',ans_left)
+        print ('bits of uncertainty:',math.log(ans_left,2))
+        print(data[str(tuple(outcome))])
     else:
         ans_left = len(ans_list)
         print ('possible answers:',ans_left)
         print ('bits of uncertainty:',math.log(ans_left,2))
-        a = worst_all_entropy(ans_list)
-        for i in range (5):
+        a = all_entropy(ans_list)
+        for i in range (3):
             print (a[i])
+        print ('possible answers:')
+        b = possible_answers(ans_list)
+        for i in range (3):
+            try:
+                print (b[i])
+            except:
+                pass
                 
     #input guess
     guess = input ("Enter guess:")
@@ -45,9 +52,11 @@ for turn in range (100):
     while (invalid(guess)):
         guess = input ("Invalid, enter guess:")
     #generates outcome
-    input_outcome = input ()
-    outcome = list(input_outcome)
-
+    input_outcome = input ("Enter outcome:")
+    outcome = list(input_outcome.upper())
+    while(len(renewed_ans(guess,outcome,ans_list))==0):
+        input_outcome = input("Invalid,enter outcome:")
+        outcome = list(input_outcome.upper())
 
     user_guess.append(colorize_outcome(guess,outcome))
     for z in user_guess:
@@ -57,12 +66,11 @@ for turn in range (100):
     print ('bits of info is',bits(guess,outcome,ans_list))
     ans_list = renewed_ans(guess,outcome,ans_list)
 
-    if (guess==ans):
+    if (input_outcome.upper() == 'GGGGG'):
         print ('\nYOU GUESSED IT.')
         print ('guesses took:',turn+1)
         break
     print ('\n-----------------------------')
-
 
 print ('\nEND OF GAME')
 
