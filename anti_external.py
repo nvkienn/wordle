@@ -8,6 +8,7 @@ possible_guesses = listw.guess
 ans_list = listw.ans
 
 #user guesses
+user_guess_color = []
 user_guess = []
 guess = ''
 outcome = []
@@ -30,12 +31,12 @@ for turn in range (100):
         print('(immix, 2.0553250345034906)')
         print('(xylyl, 2.1896376350793587)')
         print('(yukky, 2.2053433495356694)')
-    elif (turn == 1):
+    elif (turn == 1 and guess == 'qajaq'):
         ans_left = len(ans_list)
         print ('possible answers:',ans_left)
         print ('bits of uncertainty:',math.log(ans_left,2))
         print(second_word[str(tuple(outcome))])
-    elif (turn == 2 and guess == 'xylyl'):
+    elif (turn == 2 and user_guess == ['qajaq','xylyl']):
         ans_left = len(ans_list)
         print ('possible answers:',ans_left)
         print ('bits of uncertainty:',math.log(ans_left,2))
@@ -63,6 +64,7 @@ for turn in range (100):
     #check for validity
     while (invalid(guess)):
         guess = input ("Invalid, enter guess:")
+    user_guess.append(guess)
     #generates outcome
     input_outcome = input("Enter outcome:")
     outcome = list(input_outcome.upper())
@@ -70,8 +72,8 @@ for turn in range (100):
         input_outcome = input("Invalid,enter outcome:")
         outcome = list(input_outcome.upper())
 
-    user_guess.append(colorize_outcome(guess,outcome))
-    for z in user_guess:
+    user_guess_color.append(colorize_outcome(guess,outcome))
+    for z in user_guess_color:
         print (z)
 
     print ('probability of outcome is',probability(guess,outcome,ans_list))

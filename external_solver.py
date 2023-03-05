@@ -6,6 +6,7 @@ import json
 
 #selects list of answers
 ans_list = listw.ans
+guess = ''
 
 #user guesses
 user_guess = []
@@ -26,7 +27,7 @@ for turn in range (6):
         print ('possible answers: 1')
         print ('bits of uncertainty: 0')
         print ('answer is:',ans_list[0])
-    elif (turn == 1):
+    elif (turn == 1 and guess == 'soare'):
         ans_left = len(ans_list)
         print ('possible answers:',ans_left)
         print ('bits of uncertainty:',math.log(ans_left,2))

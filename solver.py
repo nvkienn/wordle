@@ -9,6 +9,7 @@ ans = ans_generator()
 
 #selects list of answers
 ans_list = listw.ans
+guess = ''
 
 #user guesses
 user_guess = []
@@ -29,7 +30,7 @@ for turn in range (6):
         print ('possible answers: 1')
         print ('bits of uncertainty: 0')
         print ('answer is:',ans_list[0])
-    elif (turn == 1):
+    elif (turn == 1 and guess == 'soare'):
         ans_left = len(ans_list)
         print ('possible answers:',ans_left)
         print ('bits of uncertainty:',math.log(ans_left,2))
@@ -40,7 +41,7 @@ for turn in range (6):
         print ('bits of uncertainty:',math.log(ans_left,2))
         a = all_entropy(ans_list)
         for i in range (3):
-            print (a[i])
+            print (a[i][0],round(a[i][1],4))
         print ('possible answers:')
         b = possible_answers(ans_list)
         for i in range (3):
