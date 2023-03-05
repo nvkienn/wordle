@@ -1,8 +1,7 @@
-from base_game_code import colorize,invalid,ans_generator
+from base_game_code import colorize,invalid,ans_generator,colorize_outcome
 
 #generates answer
 ans = ans_generator()
-print (ans)
 
 #initiating each turn 
 for i in range (6):
@@ -15,7 +14,7 @@ for i in range (6):
     #generates outcome
     outcome = colorize (guess,ans)
 
-    print (outcome)
+    print (colorize_outcome(guess,outcome))
     if (guess==ans):
         print ('YOU GUESSED IT')
         break

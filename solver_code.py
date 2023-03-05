@@ -135,4 +135,4 @@ def practical_entropy (guess,guess_list):
 
 
 def first_guesses():
-    print ("('soare', 5.885202744292758)\n('roate', 5.884856313732008)\n('raise', 5.878302956493171)\n('reast', 5.867738020843565)\n('raile', 5.865153829041265)")
+    print ("('soare', 5.885202744292758)\n('roate', 5.884856313732008)\n('raise', 5.878302956493171)")

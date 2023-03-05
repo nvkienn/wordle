@@ -1,9 +1,8 @@
 from base_game_code import colorize,invalid,ans_generator,colorize_outcome
-from solver_code import probability,bits,entropy,all_entropy,first_guesses,renewed_ans,possible_answers
-from outcomes_all import possible_outcomes
-from colors import colors
+from solver_code import probability,bits,all_entropy,first_guesses,renewed_ans,possible_answers
 import listw
 import math
+import json
 
 #generates answer
 ans = ans_generator()
@@ -13,6 +12,9 @@ ans_list = listw.ans
 
 #user guesses
 user_guess = []
+
+with open ('second_word.json','r') as f:
+    data = json.loads(f.read())
 
 #initiating each turn 
 for turn in range (6):
@@ -27,16 +29,21 @@ for turn in range (6):
         print ('possible answers: 1')
         print ('bits of uncertainty: 0')
         print ('answer is:',ans_list[0])
+    elif (turn == 1):
+        ans_left = len(ans_list)
+        print ('possible answers:',ans_left)
+        print ('bits of uncertainty:',math.log(ans_left,2))
+        print(data[str(tuple(outcome))])
     else:
         ans_left = len(ans_list)
         print ('possible answers:',ans_left)
         print ('bits of uncertainty:',math.log(ans_left,2))
         a = all_entropy(ans_list)
-        for i in range (5):
+        for i in range (3):
             print (a[i])
         print ('possible answers:')
         b = possible_answers(ans_list)
-        for i in range (5):
+        for i in range (3):
             try:
                 print (b[i])
             except:
