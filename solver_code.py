@@ -20,12 +20,23 @@ def probability (guess,outcome,ans_list):
          if (outcome == check_outcome):
              counter +=1
     probability = counter/len(ans_list)
+    rounded_probability = round(probability,3)
+    return rounded_probability
+
+def probability_unrounded (guess,outcome,ans_list):
+    counter = 0
+    for i in ans_list:
+         check_outcome = colorize(guess,i)
+         if (outcome == check_outcome):
+             counter +=1
+    probability = counter/len(ans_list)
     return probability
 
 def bits (guess,outcome,ans_list):
-    chance = probability(guess,outcome,ans_list)
+    chance = probability_unrounded(guess,outcome,ans_list)
     bits = math.log(1/chance,2)
-    return bits
+    bits_rounded = round(bits,3)
+    return bits_rounded
 
 def entropy (guess,ans_list):
     #sum(probability * log2(1/p))
@@ -37,13 +48,9 @@ def entropy (guess,ans_list):
     for i in temp.values():
         if (i != 0):
             entropy += i/len(ans_list) * math.log(len(ans_list)/i,2)
-    '''
-    sort_entropy = sorted (temp.items(), key = lambda x:x [1], reverse = True) 
-    return sort_entropy
-    '''
     return entropy
 
-def all_entropy (ans_list):
+def all_entropy_unrounded (ans_list):
     d_entropy = {}
     for i in listw.guess:
         a = entropy(i,ans_list)
@@ -51,13 +58,41 @@ def all_entropy (ans_list):
     sort_entropy = sorted (d_entropy.items(), key = lambda x:x [1], reverse = True) 
     return sort_entropy
 
-def possible_answers(ans_list):
+def all_entropy (ans_list):
+    d_entropy = {}
+    round_entropy = []
+    for i in listw.guess:
+        a = entropy(i,ans_list)
+        d_entropy[i] = a
+    sort_entropy = sorted (d_entropy.items(), key = lambda x:x [1], reverse = True) 
+    for i in range(3):
+        rounded_values = (sort_entropy[i][0],round(sort_entropy[i][1],3))
+        round_entropy.append(rounded_values)
+    return round_entropy
+
+def possible_answers_unrounded(ans_list):
     d_entropy = {}
     for i in ans_list:
         a = entropy(i,ans_list)
         d_entropy[i] = a
     sort_entropy = sorted (d_entropy.items(), key = lambda x:x [1], reverse = True) 
     return sort_entropy
+
+def possible_answers(ans_list):
+    d_entropy = {}
+    round_entropy = []
+    for i in ans_list:
+        a = entropy(i,ans_list)
+        d_entropy[i] = a
+    sort_entropy = sorted (d_entropy.items(), key = lambda x:x [1], reverse = True) 
+    if (len(ans_list)>=3):
+        count = 3
+    else:
+        count = len(ans_list)
+    for i in range(count):
+        rounded_values = (sort_entropy[i][0],round(sort_entropy[i][1],3))
+        round_entropy.append(rounded_values)
+    return round_entropy
 
 def best_entropy (ans_list):
     best_guess = ('ans',0)
@@ -72,13 +107,29 @@ def best_entropy (ans_list):
     return best_guess
 
 #for anti wordle
-def worst_entropy_all (ans_list,possible_guesses):
+def worst_entropy_all_unrounded (ans_list,possible_guesses):
     d_entropy = {}
     for i in possible_guesses:
         a = entropy(i,ans_list)
         d_entropy[i] = a
     sort_entropy = sorted (d_entropy.items(), key = lambda x:x [1], reverse = False) 
     return sort_entropy
+
+def worst_entropy_all (ans_list,possible_guesses):
+    d_entropy = {}
+    round_entropy = []
+    for i in possible_guesses:
+        a = entropy(i,ans_list)
+        d_entropy[i] = a
+    sort_entropy = sorted (d_entropy.items(), key = lambda x:x [1], reverse = False) 
+    if (len(possible_guesses)>=3):
+        count = 3
+    else:
+        count = len(possible_guesses)
+    for i in range(count):
+        rounded_values = (sort_entropy[i][0],round(sort_entropy[i][1],3))
+        round_entropy.append(rounded_values)
+    return round_entropy
 
 def worst_entropy_word (ans_list):
     worst_guess = ('ans',100)
@@ -126,5 +177,8 @@ def practical_entropy (guess,guess_list):
 
 
 
-def first_guesses():
+def first_guesses_full():
     print ("('soare', 5.885202744292758)\n('roate', 5.884856313732008)\n('raise', 5.878302956493171)")
+
+def first_guesses():
+    print ("('soare', 5.885)\n('roate', 5.885)\n('raise', 5.878)")

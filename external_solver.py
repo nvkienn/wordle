@@ -7,6 +7,7 @@ import json
 #selects list of answers
 ans_list = listw.ans
 guess = ''
+outcome = []
 
 #user guesses
 user_guess = []
@@ -21,7 +22,7 @@ for turn in range (6):
     #best first guesses
     if (turn == 0):
         print ('possible answers: 2309')
-        print ('bits of uncertainty: 11.173052457774116')
+        print ('bits of uncertainty: 11.173')
         first_guesses()
     elif (len(ans_list)==1):
         print ('possible answers: 1')
@@ -30,23 +31,20 @@ for turn in range (6):
     elif (turn == 1 and guess == 'soare'):
         ans_left = len(ans_list)
         print ('possible answers:',ans_left)
-        print ('bits of uncertainty:',math.log(ans_left,2))
+        print ('bits of uncertainty:',round(math.log(ans_left,2),3))
         print(data[str(tuple(outcome))])
     else:
         ans_left = len(ans_list)
         print ('possible answers:',ans_left)
-        print ('bits of uncertainty:',math.log(ans_left,2))
+        print ('bits of uncertainty:',round(math.log(ans_left,2),3))
         a = all_entropy(ans_list)
-        for i in range (3):
-            print (a[i])
+        for i in a:
+            print (i)
         print ('possible answers:')
         b = possible_answers(ans_list)
-        for i in range (3):
-            try:
-                print (b[i])
-            except:
-                pass
-                
+        for i in b:
+            print(i)
+               
     #input guess
     guess = input ("Enter guess:")
     #check for validity

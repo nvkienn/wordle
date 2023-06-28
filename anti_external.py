@@ -25,39 +25,33 @@ for turn in range (100):
     #best first guesses
     if (turn == 0):
         print ('possible answers: 2309')
-        print ('bits of uncertainty: 11.173052457774116')
-        print('(qajaq, 1.8901929060587057)')
-        print('(jujus, 2.0394702600664427)')
-        print('(immix, 2.0553250345034906)')
-        print('(xylyl, 2.1896376350793587)')
-        print('(yukky, 2.2053433495356694)')
+        print ('bits of uncertainty: 11.173')
+        print('(qajaq, 1.890)')
+        print('(jujus, 2.039)')
+        print('(immix, 2.055)')
+        print('(xylyl, 2.190)')
+        print('(yukky, 2.205)')
     elif (turn == 1 and guess == 'qajaq'):
         ans_left = len(ans_list)
         print ('possible answers:',ans_left)
-        print ('bits of uncertainty:',math.log(ans_left,2))
+        print ('bits of uncertainty:',round(math.log(ans_left,2),3))
         print(second_word[str(tuple(outcome))])
     elif (turn == 2 and user_guess == ['qajaq','xylyl']):
         ans_left = len(ans_list)
         print ('possible answers:',ans_left)
-        print ('bits of uncertainty:',math.log(ans_left,2))
+        print ('bits of uncertainty:',round(math.log(ans_left,2),3))
         print(third_word[str(tuple(outcome))])
     else:
         ans_left = len(ans_list)
         print ('possible answers:',ans_left)
-        print ('bits of uncertainty:',math.log(ans_left,2))
+        print ('bits of uncertainty:',round(math.log(ans_left,2),3))
         a = worst_entropy_all(ans_list,possible_guesses)
-        for i in range (5):
-            try:
-                print (a[i])
-            except:
-                pass
+        for i in a:
+            print(i)
         print ('possible answers:')
         b = worst_entropy_all(ans_list,ans_list)
-        for i in range (5):
-            try:
-                print (b[i])
-            except:
-                pass
+        for i in b:
+            print(i)
                 
     #input guess
     guess = input ("Enter guess:")
