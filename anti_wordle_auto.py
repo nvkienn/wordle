@@ -16,7 +16,7 @@ number_of_guess = 0
 word_count = 0
 
 #running through all answers
-for answer in listw.ans:
+for answer in listw.answers:
 
     word_count += 1
 
@@ -26,7 +26,7 @@ for answer in listw.ans:
     user_guess = []
 
     #selects list of possible_guesses
-    ans_list = listw.guess
+    ans_list = listw.guesses
 
     #initiating each turn 
     for turn in range (100):

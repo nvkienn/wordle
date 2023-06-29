@@ -5,7 +5,7 @@ import math
 import json
 
 #selects list of answers
-ans_list = listw.ans
+ans_list = listw.answers
 guess = ''
 outcome = []
 

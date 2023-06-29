@@ -3,7 +3,7 @@ from base_game_code import colorize
 import listw
 import math
 answers_count = 2309
-ans_default = listw.ans
+ans_default = listw.answers
 
 def renewed_ans (guess,outcome,ans_list):
     renewed_list = []
@@ -52,7 +52,7 @@ def entropy (guess,ans_list):
 
 def all_entropy_unrounded (ans_list):
     d_entropy = {}
-    for i in listw.guess:
+    for i in listw.guesses:
         a = entropy(i,ans_list)
         d_entropy[i] = a
     sort_entropy = sorted (d_entropy.items(), key = lambda x:x [1], reverse = True) 
@@ -61,7 +61,7 @@ def all_entropy_unrounded (ans_list):
 def all_entropy (ans_list):
     d_entropy = {}
     round_entropy = []
-    for i in listw.guess:
+    for i in listw.guesses:
         a = entropy(i,ans_list)
         d_entropy[i] = a
     sort_entropy = sorted (d_entropy.items(), key = lambda x:x [1], reverse = True) 
@@ -97,7 +97,7 @@ def possible_answers(ans_list):
 def best_entropy (ans_list):
     best_guess = ('ans',0)
     #count = 0
-    for guess in listw.guess:
+    for guess in listw.guesses:
     #    count +=1
     #    if (count%50==0):
     #        print (count)
@@ -151,7 +151,7 @@ def two_entropy (guess,ans_list):
 
 def two_entropy_all (ans_list):
     d_entropy = []
-    for guess in listw.guess:
+    for guess in listw.guesses:
         value = two_entropy(guess,ans_list)
         two_entropy_all.append([guess,value])
     return sort_entropy
@@ -165,13 +165,13 @@ def practical_entropy (guess,guess_list):
         print (count)
         total_entropy = 0
         for outcome in all_outcomes:
-            chance = probability(guess,list(outcome),listw.ans)
-            renewed_list = renewed_ans(guess,list(outcome),listw.ans) 
+            chance = probability(guess,list(outcome),listw.answers)
+            renewed_list = renewed_ans(guess,list(outcome),listw.answers) 
             total_entropy += entropy(word,renewed_list)*chance
         if (total_entropy>save[2]):
             save[1] = word
             save[2] = total_entropy
-    save[2] += entropy(guess,listw.ans)
+    save[2] += entropy(guess,listw.answers)
     return save
 
 

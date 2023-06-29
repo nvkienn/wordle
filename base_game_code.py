@@ -11,14 +11,14 @@ def counter(lst):
 
 #checks validity of guess
 def invalid(guess):
-    for i in listw.guess:
+    for i in listw.guesses:
         if (guess == i):
             return False
     return True
 #generates answer
 def ans_generator():
     p = random.randint(0,2309)
-    ans = listw.ans[p]
+    ans = listw.answers[p]
     return ans
 
 #generates outcome

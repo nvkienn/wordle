@@ -4,8 +4,8 @@ import listw
 import math
 import json
 
-possible_guesses = listw.guess
-ans_list = listw.ans
+possible_guesses = listw.guesses
+ans_list = listw.answers
 
 #user guesses
 user_guess_color = []

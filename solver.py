@@ -8,7 +8,7 @@ import json
 ans = ans_generator()
 
 #selects list of answers
-ans_list = listw.ans
+ans_list = listw.answers
 guess = ''
 outcome = []
 

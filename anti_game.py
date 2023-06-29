@@ -6,7 +6,7 @@ import listw
 ans = ans_generator()
 guess = ''
 
-possible_guesses = listw.guess
+possible_guesses = listw.guesses
 
 #initiating each turn 
 for i in range (100):

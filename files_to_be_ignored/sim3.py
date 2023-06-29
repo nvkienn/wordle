@@ -8,14 +8,14 @@ import random
 
 #asssigning answer
 p = random.randint(0,2308)
-#ans = listw.ans[p]
+#ans = listw.answers[p]
 ans = 'hello'
 print (ans)
 
 
 #check if guess is in allowed guesses
 def invalid():
-    for i in listw.guess:
+    for i in listw.guesses:
         if (word == i):
             return False
     return True

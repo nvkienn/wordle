@@ -6,7 +6,7 @@ import json
 #with open ('second_word.json','w') as f:
 #    all_outcomes = {}
 #    for outcome in possible_outcomes:
-#        ans_list = renewed_ans('soare',list(outcome),listw.ans)
+#        ans_list = renewed_ans('soare',list(outcome),listw.answers)
 #        if (len(ans_list)>1):
 #            a = all_entropy(ans_list)
 #            result = ''
@@ -26,8 +26,8 @@ import json
 #with open ('anti_second_word.json','w') as f:
 #    all_outcomes = {}
 #    for outcome in possible_outcomes:
-#        ans_list = renewed_ans('qajaq',list(outcome),listw.ans)
-#        possible_guesses = renewed_ans('qajaq',list(outcome),listw.guess)
+#        ans_list = renewed_ans('qajaq',list(outcome),listw.answers)
+#        possible_guesses = renewed_ans('qajaq',list(outcome),listw.guesses)
 #        if (len(ans_list)>0):
 #            a = worst_entropy_all(ans_list,possible_guesses)
 #            result = ''
@@ -47,9 +47,9 @@ import json
 with open ('anti_third_word.json','w') as f:
     all_outcomes = {}
     for outcome in possible_outcomes:
-        ans_list = renewed_ans('qajaq',['B','B','B','B','B'],listw.ans)
+        ans_list = renewed_ans('qajaq',['B','B','B','B','B'],listw.answers)
         ans_list = renewed_ans('xylyl',list(outcome),ans_list)
-        possible_guesses = renewed_ans('qajaq',['B','B','B','B','B'],listw.guess)
+        possible_guesses = renewed_ans('qajaq',['B','B','B','B','B'],listw.guesses)
         possible_guesses = renewed_ans('xylyl',list(outcome),possible_guesses)
         if (len(ans_list)>0):
             a = worst_entropy_all(ans_list,possible_guesses)
