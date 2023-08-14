@@ -7,6 +7,7 @@ from solver_code import (
     renewed_ans,
     possible_answers,
 )
+from second_word import second_word_list
 import listw
 import math
 import json
@@ -20,9 +21,6 @@ def run():
 
     # user guesses
     user_guess = []
-
-    with open("second_word.json", "r") as f:
-        data = json.loads(f.read())
 
     # initiating each turn
     for turn in range(6):
@@ -40,7 +38,7 @@ def run():
             ans_left = len(ans_list)
             print("possible answers:", ans_left)
             print("bits of uncertainty:", round(math.log(ans_left, 2), 3))
-            print(data[str(tuple(outcome))])
+            print(second_word_list[str(tuple(outcome))])
         else:
             ans_left = len(ans_list)
             print("possible answers:", ans_left)

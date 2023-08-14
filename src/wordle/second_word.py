@@ -1,4 +1,4 @@
-{
+second_word_list = {
   "('G', 'G', 'Y', 'Y', 'B')": "('blush', 1.0)\n('focal', 1.0)\n('naval', 1.0)\npossible answers:\n('solar', 1.0)\n('sonar', 1.0)",
   "('G', 'G', 'B', 'Y', 'Y')": "('rebut', 1.0)\n('awake', 1.0)\n('blush', 1.0)\npossible answers:\n('sower', 1.0)\n('sober', 1.0)",
   "('G', 'G', 'B', 'B', 'B')": "('lusty', 2.807)\n('dutch', 2.807)\n('irony', 2.807)\npossible answers:\n('sound', 2.128)\n('south', 2.128)\n('sooty', 2.128)",
